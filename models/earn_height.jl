@@ -15,6 +15,8 @@ model {
 }
 =#
 
-@model function earn_height(N, earn, height)
-    earn .~ Normal(beta[1] + beta[2] * height, sigma)
-end
+# @model function earn_height(N, earn, height)
+#     beta .~ Uniform(-100, 100) # Need to look up stan default priors
+#     sigma .~ Uniform(0, 100)
+#     earn .~ Normal(beta[1] + beta[2] * height, sigma)
+# end
