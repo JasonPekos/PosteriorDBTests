@@ -8,7 +8,7 @@ function smush_reference_posterior(ref_post::DataFrame)
     DataFrame([vcat(ref_post[!, c]...) for c in names(ref_post)], names(ref_post))
 end
 
-function get_reference_posterior(pdb_model_name::String, smush::Bool=true)
+function get_reference_draws(pdb_model_name::String, smush::Bool=true)
     # PDB names models like this: "dataset_name-stan_file_name"
     # (Different models often share datasets)
     # Returns a dataset of reference posterior draws for e.g. plotting.
