@@ -8,5 +8,7 @@
         theta[i] ~ Normal(mu, tau)
     end
 
-    y .~ Normal(theta[i], sigma[i])
+    for i in 1:J
+        y[i] ~ Normal(theta[i], sigma[i])
+    end
 end
