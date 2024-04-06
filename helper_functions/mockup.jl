@@ -46,7 +46,7 @@ function get_data(pdb_model_name::String)
     PosteriorDB.load(PosteriorDB.dataset(pdb, String(dataset_name)))
 end
 
-function get_turing_draws(pdb_model_name, turing_model, data_arg_names; samples = 10000, sampler = NUTS())
+function get_turing_draws(pdb_model_name, turing_model, data_arg_names; samples = 20_000, chains = 5, sampler = NUTS())
     # Defaults are set to match PosteriorDB(?). Though need to check if this is consistent.
     data_full = get_data(pdb_model_name)  
     pdb = PosteriorDB.database()
@@ -59,7 +59,11 @@ function get_turing_draws(pdb_model_name, turing_model, data_arg_names; samples 
         end
     end
 
-    turing_post = sample(turing_model(values(filtered_args)...), sampler, samples)
+    if chains > 1
+        return sample(turing_model(values(filtered_args)...), sampler, MCMCThreads(), samples, chains)
+    else
+        sample(turing_model(values(filtered_args)...), sampler, samples)
+    end
 end
 
 
