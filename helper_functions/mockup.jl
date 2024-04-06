@@ -14,7 +14,13 @@ function get_reference_draws(pdb_model_name::String, smush::Bool=true)
     # Returns a dataset of reference posterior draws for e.g. plotting.
     pdb = PosteriorDB.database()
     post = PosteriorDB.posterior(pdb, pdb_model_name)
-    df = DataFrame(PosteriorDB.load(PosteriorDB.reference_posterior(post)))
+    try 
+        df = DataFrame(PosteriorDB.load(PosteriorDB.reference_posterior(post)))
+    catch 
+        @error "Warning - No Posterior Draws Found. Check to make sure that the posterior is spelled correctly, and that
+            reference draws exist for this model in pdb."
+        return nothing
+    end
     smush ? smush_reference_posterior(df) : df
 end
 
